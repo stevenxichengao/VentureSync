@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/VentureSync/static/css/main.0ec91374.css",
-    "main.js": "/VentureSync/static/js/main.3a725638.js",
+    "main.js": "/VentureSync/static/js/main.2e9e8380.js",
     "static/js/453.2913342c.chunk.js": "/VentureSync/static/js/453.2913342c.chunk.js",
     "index.html": "/VentureSync/index.html",
     "main.0ec91374.css.map": "/VentureSync/static/css/main.0ec91374.css.map",
-    "main.3a725638.js.map": "/VentureSync/static/js/main.3a725638.js.map",
+    "main.2e9e8380.js.map": "/VentureSync/static/js/main.2e9e8380.js.map",
     "453.2913342c.chunk.js.map": "/VentureSync/static/js/453.2913342c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0ec91374.css",
-    "static/js/main.3a725638.js"
+    "static/js/main.2e9e8380.js"
   ]
 }
