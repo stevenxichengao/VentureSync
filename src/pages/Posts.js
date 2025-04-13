@@ -127,10 +127,10 @@ const Posts = () => {
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
               <Box>
-                <Button startIcon={<ImageIcon />} sx={{ color: '#2E3B55' }}>
+                <Button startIcon={<ImageIcon />} sx={{ color: '#61082b' }}>
                   Photo
                 </Button>
-                <Button startIcon={<TagIcon />} sx={{ color: '#2E3B55' }}>
+                <Button startIcon={<TagIcon />} sx={{ color: '#61082b' }}>
                   Tag
                 </Button>
               </Box>
@@ -139,9 +139,9 @@ const Posts = () => {
                 onClick={handlePostSubmit}
                 disabled={!newPostContent.trim()}
                 sx={{
-                  backgroundColor: '#2E3B55',
+                  backgroundColor: '#61082b',
                   '&:hover': {
-                    backgroundColor: '#3a4b6d',
+                    backgroundColor: '#484b50',
                   },
                 }}
               >
@@ -163,8 +163,8 @@ const Posts = () => {
           indicatorColor="primary"
           sx={{ 
             '& .MuiTab-root': { textTransform: 'none' },
-            '& .Mui-selected': { color: '#2E3B55' },
-            '& .MuiTabs-indicator': { backgroundColor: '#2E3B55' } 
+            '& .Mui-selected': { color: '#61082b' },
+            '& .MuiTabs-indicator': { backgroundColor: '#61082b' } 
           }}
         >
           <Tab label="All Posts" />
@@ -216,7 +216,7 @@ const Posts = () => {
                         height: 20,
                         fontSize: '0.7rem', 
                         backgroundColor: 'rgba(46, 59, 85, 0.1)',
-                        color: '#2E3B55'
+                        color: '#61082b'
                       }}
                     />
                   </Box>
@@ -251,7 +251,7 @@ const Posts = () => {
                         size="small"
                         sx={{ 
                           backgroundColor: 'rgba(46, 59, 85, 0.1)',
-                          color: '#2E3B55'
+                          color: '#61082b'
                         }}
                       />
                     ))}
@@ -266,7 +266,7 @@ const Posts = () => {
                   startIcon={<ThumbUpIcon />}
                   size="small"
                   onClick={() => handleLike(post.id)}
-                  sx={{ color: '#2E3B55' }}
+                  sx={{ color: '#61082b' }}
                 >
                   {post.likes > 0 ? post.likes : 'Like'}
                 </Button>
@@ -274,7 +274,7 @@ const Posts = () => {
                 <Button
                   startIcon={<CommentIcon />}
                   size="small"
-                  sx={{ color: '#2E3B55' }}
+                  sx={{ color: '#61082b' }}
                 >
                   {post.comments > 0 ? post.comments : 'Comment'}
                 </Button>
@@ -282,7 +282,7 @@ const Posts = () => {
                 <Button
                   startIcon={<ShareIcon />}
                   size="small"
-                  sx={{ color: '#2E3B55' }}
+                  sx={{ color: '#61082b' }}
                 >
                   {post.shares > 0 ? post.shares : 'Share'}
                 </Button>

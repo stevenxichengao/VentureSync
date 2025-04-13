@@ -20,12 +20,9 @@ import {
   IconButton,
   InputAdornment,
   Pagination,
-  Stack,
-  Autocomplete,
   Alert,
   useTheme,
   useMediaQuery,
-  Tooltip
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
@@ -33,12 +30,12 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import BusinessIcon from '@mui/icons-material/Business';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import WorkIcon from '@mui/icons-material/Work';
-import PersonIcon from '@mui/icons-material/Person';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import PeopleIcon from '@mui/icons-material/People';
 import LinkIcon from '@mui/icons-material/Link';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { fundingSeriesOptions, locations, industries } from '../data/mockData';
+import { fundingSeriesOptions, industries } from '../data/mockData';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -79,106 +76,89 @@ const formatDate = (date) => {
   return `${d.getMonth() + 1}/${d.getFullYear()}`;
 };
 
-const Founders = () => {
+const Businesses = () => {
   const { allUsers } = useApp();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
   
-  // Get only founders from all users (memoized)
-  const founders = useMemo(() => allUsers.filter(user => user.isFounder), [allUsers]);
+  // Get only businesses from all users (who are founders) and organize by company
+  const businesses = useMemo(() => {
+    const founderUsers = allUsers.filter(user => user.isFounder);
+    
+    // Group by company name to avoid duplicates
+    const companyMap = new Map();
+    
+    founderUsers.forEach(user => {
+      if (!companyMap.has(user.company)) {
+        companyMap.set(user.company, {
+          id: user.id,
+          name: user.company,
+          founder: user.name,
+          founderId: user.id,
+          industry: user.industry,
+          fundingSeries: user.fundingSeries || 'Not specified',
+          companySize: user.companySize || 'Unknown',
+          location: user.location,
+          website: user.website,
+          foundingDate: user.foundingDate,
+          lookingFor: user.lookingFor || [],
+          logo: user.avatar, // Using founder's avatar as company logo for this example
+        });
+      }
+    });
+    
+    return Array.from(companyMap.values());
+  }, [allUsers]);
   
   // State for filters
   const [searchQuery, setSearchQuery] = useState('');
-  const [location, setLocation] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState('');
-  const [ethnicity, setEthnicity] = useState('');
-  const [industryFocus, setIndustryFocus] = useState('');
-  const [interest, setInterest] = useState('');
-  const [fundingStage, setFundingStage] = useState('');
-  const [education, setEducation] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [fundingSeries, setFundingSeries] = useState('');
+  const [companySize, setCompanySize] = useState('');
   const [showFilters, setShowFilters] = useState(!isMobile);
   
-  // State for founders
-  const [filteredFounders, setFilteredFounders] = useState(founders);
+  // State for businesses
+  const [filteredBusinesses, setFilteredBusinesses] = useState(businesses);
   
   // Pagination
   const [page, setPage] = useState(1);
-  const foundersPerPage = 6;
+  const businessesPerPage = 6;
   
-  // Effect to filter founders when filters change
+  // Effect to filter businesses when filters change
   useEffect(() => {
     let mounted = true;
     
     const applyFilters = () => {
-      let results = [...founders];
+      let results = [...businesses];
       
       // Apply search query filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        results = results.filter(founder => 
-          founder.name.toLowerCase().includes(query) ||
-          founder.company.toLowerCase().includes(query) ||
-          (founder.bio && founder.bio.toLowerCase().includes(query))
+        results = results.filter(business => 
+          business.name.toLowerCase().includes(query) ||
+          business.founder.toLowerCase().includes(query) ||
+          (business.industry && business.industry.toLowerCase().includes(query))
         );
       }
       
-      // Apply location filter
-      if (location) {
-        results = results.filter(founder => founder.location && founder.location.includes(location));
+      // Apply industry filter
+      if (industry) {
+        results = results.filter(business => business.industry === industry);
       }
       
-      // Apply age filter - now using real age field
-      if (age) {
-        results = results.filter(founder => founder.age === age);
+      // Apply funding series filter
+      if (fundingSeries) {
+        results = results.filter(business => business.fundingSeries === fundingSeries);
       }
       
-      // Apply gender filter - now using real gender field
-      if (gender) {
-        results = results.filter(founder => founder.gender === gender);
-      }
-      
-      // Apply ethnicity filter - now using real ethnicity field
-      if (ethnicity) {
-        results = results.filter(founder => founder.ethnicity === ethnicity);
-      }
-      
-      // Apply industry focus filter
-      if (industryFocus) {
-        // Map selected industry focus to actual industry values
-        const industryMap = {
-          'Tech': ['Software & Tech', 'AI & Machine Learning', 'Crypto & Blockchain'],
-          'Finance': ['Fintech'],
-          'Healthcare': ['Healthcare'],
-          'Education': ['Education'],
-          'Other': ['E-commerce', 'Clean Energy', 'Consumer Goods', 'B2B Services']
-        };
-        
-        const mappedIndustries = industryMap[industryFocus] || [];
-        results = results.filter(founder => mappedIndustries.includes(founder.industry));
-      }
-      
-      // Apply interest filter - now using real interests field
-      if (interest) {
-        results = results.filter(founder => 
-          (founder.interests && Array.isArray(founder.interests) && founder.interests.includes(interest)) ||
-          (founder.lookingFor && Array.isArray(founder.lookingFor) && founder.lookingFor.includes(interest))
-        );
-      }
-      
-      // Apply funding stage filter
-      if (fundingStage) {
-        results = results.filter(founder => founder.fundingSeries === fundingStage);
-      }
-      
-      // Apply education filter - now using real education field
-      if (education) {
-        results = results.filter(founder => founder.education === education);
+      // Apply company size filter
+      if (companySize) {
+        results = results.filter(business => business.companySize === companySize);
       }
       
       if (mounted) {
-        setFilteredFounders(results);
+        setFilteredBusinesses(results);
         setPage(1); // Reset to first page when filters change
       }
     };
@@ -189,16 +169,12 @@ const Founders = () => {
     return () => {
       mounted = false;
     };
-  }, [founders, searchQuery, location, age, gender, ethnicity, industryFocus, interest, fundingStage, education]);
+  }, [businesses, searchQuery, industry, fundingSeries, companySize]);
   
   // Add a separate effect for DOM cleanup on unmount only
   useEffect(() => {
     return () => {
-      // We don't want to manipulate the DOM directly in React
-      // Instead, let's add a flag to prevent React from attempting removal that might cause errors
       document.body.classList.add('cleanup-in-progress');
-      
-      // After a small delay, remove the flag
       setTimeout(() => {
         document.body.classList.remove('cleanup-in-progress');
       }, 100);
@@ -206,10 +182,10 @@ const Founders = () => {
   }, []);
   
   // Calculate pagination
-  const totalPages = Math.ceil(filteredFounders.length / foundersPerPage);
-  const currentFounders = filteredFounders.slice(
-    (page - 1) * foundersPerPage,
-    page * foundersPerPage
+  const totalPages = Math.ceil(filteredBusinesses.length / businessesPerPage);
+  const currentBusinesses = filteredBusinesses.slice(
+    (page - 1) * businessesPerPage,
+    page * businessesPerPage
   );
   
   // Handler functions
@@ -220,14 +196,9 @@ const Founders = () => {
   
   const handleClearFilters = () => {
     setSearchQuery('');
-    setLocation('');
-    setAge('');
-    setGender('');
-    setEthnicity('');
-    setIndustryFocus('');
-    setInterest('');
-    setFundingStage('');
-    setEducation('');
+    setIndustry('');
+    setFundingSeries('');
+    setCompanySize('');
   };
   
   const toggleFilters = () => {
@@ -235,7 +206,7 @@ const Founders = () => {
   };
   
   const handleConnect = (founderId) => {
-    console.log('Connecting with founder:', founderId);
+    console.log('Connecting with business owner:', founderId);
     // Future implementation
   };
   
@@ -243,22 +214,17 @@ const Founders = () => {
     navigate(`/profile/${founderId}`);
   };
   
-  // Options for new filters
-  const ageOptions = ['18-24', '25-34', '35-44', '45-54', '55+'];
-  const genderOptions = ['Male', 'Female', 'Non-binary', 'Other'];
-  const ethnicityOptions = ['Asian', 'Black', 'Hispanic', 'White', 'Other'];
-  const industryFocusOptions = ['Tech', 'Finance', 'Healthcare', 'Education', 'Other'];
-  const interestOptions = ['Networking', 'Funding', 'Partnerships', 'Mentorship', 'Innovation', 'Growth', 'Marketing'];
-  const educationOptions = ['High School', 'Bachelor', 'Master', 'PhD'];
+  // Company size options
+  const companySizeOptions = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
   
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 8, position: 'relative', zIndex: 1 }}>
       {/* Header */}
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#61082b' }}>
-        Find Founders
+        Discover Businesses
       </Typography>
       <Typography variant="body1" paragraph sx={{ mb: 4 }}>
-        Connect with founders based on funding stage, industry, location, and more.
+        Find and connect with innovative businesses based on industry, funding stage, and size.
       </Typography>
       
       {/* Search and Filter Section */}
@@ -266,7 +232,7 @@ const Founders = () => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <TextField
             fullWidth
-            placeholder="Search by name, company, or keywords..."
+            placeholder="Search by business name, founder, or keywords..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             InputProps={{
@@ -306,112 +272,17 @@ const Founders = () => {
         
         {showFilters && (
           <Grid container spacing={2}>
-            {/* Location Filter */}
-            <Grid item xs={12} sm={6} md={4}>
+            {/* Industry Filter */}
+            <Grid item xs={12} sm={6} md={3}>
               <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
-                <InputLabel>Location</InputLabel>
+                <InputLabel>Industry</InputLabel>
                 <Select
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  label="Location"
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  label="Industry"
                 >
                   <MenuItem value="">All</MenuItem>
-                  {locations.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            
-            {/* Age Filter */}
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
-                <InputLabel>Age</InputLabel>
-                <Select
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  label="Age"
-                >
-                  <MenuItem value="">All</MenuItem>
-                  {ageOptions.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            
-            {/* Gender Filter */}
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
-                <InputLabel>Gender</InputLabel>
-                <Select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  label="Gender"
-                >
-                  <MenuItem value="">All</MenuItem>
-                  {genderOptions.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            
-            {/* Ethnicity Filter */}
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
-                <InputLabel>Ethnicity</InputLabel>
-                <Select
-                  value={ethnicity}
-                  onChange={(e) => setEthnicity(e.target.value)}
-                  label="Ethnicity"
-                >
-                  <MenuItem value="">All</MenuItem>
-                  {ethnicityOptions.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            
-            {/* Industry Focus Filter */}
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
-                <InputLabel>Industry Focus</InputLabel>
-                <Select
-                  value={industryFocus}
-                  onChange={(e) => setIndustryFocus(e.target.value)}
-                  label="Industry Focus"
-                >
-                  <MenuItem value="">All</MenuItem>
-                  {industryFocusOptions.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            
-            {/* Interest Filter */}
-            <Grid item xs={12} sm={6} md={4}>
-              <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
-                <InputLabel>Interest</InputLabel>
-                <Select
-                  value={interest}
-                  onChange={(e) => setInterest(e.target.value)}
-                  label="Interest"
-                >
-                  <MenuItem value="">All</MenuItem>
-                  {interestOptions.map((option) => (
+                  {industries.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
@@ -421,12 +292,12 @@ const Founders = () => {
             </Grid>
             
             {/* Funding Stage Filter */}
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
                 <InputLabel>Funding Stage</InputLabel>
                 <Select
-                  value={fundingStage}
-                  onChange={(e) => setFundingStage(e.target.value)}
+                  value={fundingSeries}
+                  onChange={(e) => setFundingSeries(e.target.value)}
                   label="Funding Stage"
                 >
                   <MenuItem value="">All</MenuItem>
@@ -439,17 +310,17 @@ const Founders = () => {
               </FormControl>
             </Grid>
             
-            {/* Education Filter */}
-            <Grid item xs={12} sm={6} md={4}>
+            {/* Company Size Filter */}
+            <Grid item xs={12} sm={6} md={3}>
               <FormControl fullWidth size="small" sx={{ minWidth: '200px' }}>
-                <InputLabel>Education</InputLabel>
+                <InputLabel>Number of Employees</InputLabel>
                 <Select
-                  value={education}
-                  onChange={(e) => setEducation(e.target.value)}
-                  label="Education"
+                  value={companySize}
+                  onChange={(e) => setCompanySize(e.target.value)}
+                  label="Number of Employees"
                 >
                   <MenuItem value="">All</MenuItem>
-                  {educationOptions.map((option) => (
+                  {companySizeOptions.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
@@ -459,7 +330,7 @@ const Founders = () => {
             </Grid>
             
             {/* Clear Filters Button */}
-            <Grid item xs={12} sm={6} md={4} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', alignItems: 'center' }}>
               <Button 
                 variant="outlined" 
                 onClick={handleClearFilters}
@@ -482,14 +353,14 @@ const Founders = () => {
         )}
       </StyledPaper>
       
-      {/* Founders Grid */}
-      {currentFounders.length > 0 ? (
+      {/* Businesses Grid */}
+      {currentBusinesses.length > 0 ? (
         <>
           <Grid container spacing={3} sx={{ mb: 4 }}>
-            {currentFounders.map((founder) => (
-              <Grid item xs={12} sm={6} md={4} key={founder.id}>
+            {currentBusinesses.map((business) => (
+              <Grid item xs={12} sm={6} md={4} key={business.id}>
                 <StyledCard>
-                  {/* Card Header with Avatar and Name */}
+                  {/* Card Header with Logo and Name */}
                   <Box sx={{ 
                     bgcolor: '#61082b', 
                     p: 2, 
@@ -500,8 +371,8 @@ const Founders = () => {
                   }}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
                       <Avatar
-                        src={founder.avatar}
-                        alt={founder.name}
+                        src={business.logo}
+                        alt={business.name}
                         sx={{ width: 80, height: 80, border: '3px solid white', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
                       />
                     </Box>
@@ -509,7 +380,7 @@ const Founders = () => {
                   
                   <CardContent sx={{ pt: 3, pb: 0, px: 3, flexGrow: 1 }}>
                     <Typography variant="h6" align="center" gutterBottom>
-                      {founder.name}
+                      {business.name}
                     </Typography>
                     
                     <Typography 
@@ -518,10 +389,10 @@ const Founders = () => {
                       color="text.secondary"
                       gutterBottom
                     >
-                      {founder.role} at {founder.company}
+                      Founded by {business.founder}
                     </Typography>
                     
-                    {/* Company Details */}
+                    {/* Business Details */}
                     <Box sx={{ 
                       display: 'flex', 
                       alignItems: 'center',
@@ -529,7 +400,7 @@ const Founders = () => {
                       justifyContent: 'center'
                     }}>
                       <Chip 
-                        label={founder.fundingSeries || 'Not specified'} 
+                        label={business.fundingSeries} 
                         size="small"
                         sx={{ 
                           mr: 1, 
@@ -538,7 +409,7 @@ const Founders = () => {
                         }} 
                       />
                       <Chip 
-                        label={founder.industry} 
+                        label={business.industry} 
                         size="small"
                         sx={{ backgroundColor: '#f0f0f0' }} 
                       />
@@ -549,9 +420,9 @@ const Founders = () => {
                       alignItems: 'center',
                       mb: 1.5
                     }}>
-                      <BusinessIcon fontSize="small" sx={{ color: 'text.secondary', mr: 1 }} />
+                      <PeopleIcon fontSize="small" sx={{ color: 'text.secondary', mr: 1 }} />
                       <Typography variant="body2">
-                        {founder.companySize || 'Unknown'} employees
+                        {business.companySize} employees
                       </Typography>
                     </Box>
                     
@@ -562,11 +433,24 @@ const Founders = () => {
                     }}>
                       <LocationOnIcon fontSize="small" sx={{ color: 'text.secondary', mr: 1 }} />
                       <Typography variant="body2">
-                        {founder.location}
+                        {business.location}
                       </Typography>
                     </Box>
                     
-                    {founder.website && (
+                    {business.foundingDate && (
+                      <Box sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center',
+                        mb: 1.5
+                      }}>
+                        <BusinessIcon fontSize="small" sx={{ color: 'text.secondary', mr: 1 }} />
+                        <Typography variant="body2">
+                          Founded {formatDate(business.foundingDate)}
+                        </Typography>
+                      </Box>
+                    )}
+                    
+                    {business.website && (
                       <Box sx={{ 
                         display: 'flex', 
                         alignItems: 'center',
@@ -576,24 +460,24 @@ const Founders = () => {
                         <Typography 
                           variant="body2" 
                           component="a" 
-                          href={founder.website}
+                          href={business.website}
                           target="_blank"
                           rel="noopener noreferrer"
                           sx={{ color: '#61082b', textDecoration: 'none' }}
                         >
-                          {founder.website.replace(/^https?:\/\//i, '')}
+                          {business.website.replace(/^https?:\/\//i, '')}
                         </Typography>
                       </Box>
                     )}
                     
                     {/* Looking For Section */}
-                    {founder.lookingFor && founder.lookingFor.length > 0 && (
+                    {business.lookingFor && business.lookingFor.length > 0 && (
                       <Box sx={{ mb: 2 }}>
                         <Typography variant="subtitle2" gutterBottom>
                           Looking for:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                          {founder.lookingFor.map((item, index) => (
+                          {business.lookingFor.map((item, index) => (
                             <Chip 
                               key={index} 
                               label={item} 
@@ -604,31 +488,16 @@ const Founders = () => {
                         </Box>
                       </Box>
                     )}
-                    
-                    {/* Skills Section */}
-                    <Typography variant="subtitle2" gutterBottom>
-                      Skills:
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
-                      {founder.skills.map((skill, index) => (
-                        <Chip 
-                          key={index} 
-                          label={skill} 
-                          size="small"
-                          sx={{ backgroundColor: '#f0f0f0' }} 
-                        />
-                      ))}
-                    </Box>
                   </CardContent>
                   
                   <CardActions sx={{ p: 2, justifyContent: 'center' }}>
                     <Button 
                       variant="contained"
-                      onClick={() => handleConnect(founder.id)}
+                      onClick={() => handleConnect(business.founderId)}
                       sx={{ 
                         backgroundColor: '#61082b',
                         '&:hover': {
-                          backgroundColor: '#484b50',
+                          backgroundColor: '#3a4b6d',
                         }
                       }}
                     >
@@ -636,7 +505,7 @@ const Founders = () => {
                     </Button>
                     <Button 
                       variant="outlined"
-                      onClick={() => handleViewProfile(founder.id)}
+                      onClick={() => handleViewProfile(business.founderId)}
                       sx={{ 
                         borderColor: '#61082b', 
                         color: '#61082b',
@@ -646,7 +515,7 @@ const Founders = () => {
                         }
                       }}
                     >
-                      View Profile
+                      View Founder
                     </Button>
                   </CardActions>
                 </StyledCard>
@@ -681,7 +550,7 @@ const Founders = () => {
               </Button>
             }
           >
-            No founders match your current filters. Try adjusting your search criteria.
+            No businesses match your current filters. Try adjusting your search criteria.
           </Alert>
         </StyledPaper>
       )}
@@ -689,4 +558,4 @@ const Founders = () => {
   );
 };
 
-export default Founders;
+export default Businesses; 

@@ -31,6 +31,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import ForumIcon from '@mui/icons-material/Forum';
 import PersonIcon from '@mui/icons-material/Person';
 import PeopleIcon from '@mui/icons-material/People';
+import BusinessIcon from '@mui/icons-material/Business';
 import { useApp } from '../context/AppContext';
 
 // Styled components
@@ -74,7 +75,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: '#2E3B55',
+  backgroundColor: '#61082b',
 }));
 
 const LogoText = styled(Typography)(({ theme }) => ({
@@ -113,6 +114,7 @@ const Navbar = () => {
     { label: 'Home', icon: <HomeIcon />, path: '/' },
     { label: 'Posts', icon: <GroupIcon />, path: '/posts' },
     { label: 'Founders', icon: <PeopleIcon />, path: '/founders' },
+    { label: 'Businesses', icon: <BusinessIcon />, path: '/businesses' },
     { label: 'Chats', icon: <ForumIcon />, path: '/chats' },
     { label: 'Profile', icon: <PersonIcon />, path: '/profile' },
   ];

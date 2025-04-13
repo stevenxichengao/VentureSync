@@ -15,18 +15,24 @@ import Posts from './pages/Posts';
 import Profile from './pages/Profile';
 import Chats from './pages/Chats';
 import Founders from './pages/Founders';
+import Businesses from './pages/Businesses';
 
 // Create theme
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2E3B55',
+      main: '#61082b',
     },
     secondary: {
       main: '#FFA500',
     },
     background: {
-      default: '#f5f8fa',
+      default: '#ffffff',
+      paper: '#f5f5f5',
+    },
+    text: {
+      primary: '#333333',
+      secondary: 'rgba(0, 0, 0, 0.7)',
     },
   },
   typography: {
@@ -105,6 +111,7 @@ function App() {
               <Route path="/chats" element={<Chats />} />
               <Route path="/chats/:groupId" element={<Chats />} />
               <Route path="/founders" element={<Founders />} />
+              <Route path="/businesses" element={<Businesses />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

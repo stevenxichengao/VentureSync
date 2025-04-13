@@ -110,7 +110,7 @@ const Home = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 8 }}>
       {/* Welcome Section */}
-      <StyledPaper sx={{ mb: 4, backgroundColor: '#2E3B55', color: 'white' }}>
+      <StyledPaper sx={{ mb: 4, backgroundColor: '#61082b', color: 'white' }}>
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={8}>
             <Typography variant="h4" gutterBottom>
@@ -126,7 +126,7 @@ const Home = () => {
                 to="/posts"
                 sx={{ 
                   backgroundColor: 'white', 
-                  color: '#2E3B55',
+                  color: '#61082b',
                   '&:hover': {
                     backgroundColor: '#f5f5f5',
                   }
@@ -186,7 +186,7 @@ const Home = () => {
             </Box>
           </Grid>
           <Grid item xs={12} md={8}>
-            <Typography variant="h4" gutterBottom sx={{ color: '#2E3B55' }}>
+            <Typography variant="h4" gutterBottom sx={{ color: '#61082b' }}>
               Find Founders in Your Industry
             </Typography>
             <Typography variant="body1" paragraph>
@@ -201,10 +201,10 @@ const Home = () => {
                 to="/founders"
                 startIcon={<PeopleIcon />}
                 sx={{ 
-                  backgroundColor: '#2E3B55',
+                  backgroundColor: '#61082b',
                   color: 'white',
                   '&:hover': {
-                    backgroundColor: '#3a4b6d',
+                    backgroundColor: '#484b50',
                   }
                 }}
               >
@@ -221,7 +221,7 @@ const Home = () => {
           {/* Trending Topics */}
           <StyledPaper sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <TrendingUpIcon sx={{ mr: 1, color: '#2E3B55' }} />
+              <TrendingUpIcon sx={{ mr: 1, color: '#61082b' }} />
               <Typography variant="h6">Trending Topics</Typography>
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -230,10 +230,10 @@ const Home = () => {
                   key={index} 
                   label={topic} 
                   sx={{ 
-                    backgroundColor: '#2E3B55', 
+                    backgroundColor: '#61082b', 
                     color: 'white',
                     '&:hover': {
-                      backgroundColor: '#3a4b6d',
+                      backgroundColor: '#484b50',
                     }
                   }} 
                 />
@@ -276,7 +276,7 @@ const Home = () => {
                       component={Link} 
                       to={`/posts`} 
                       size="small" 
-                      sx={{ color: '#2E3B55' }}
+                      sx={{ color: '#61082b' }}
                     >
                       Read More
                     </Button>
@@ -300,7 +300,7 @@ const Home = () => {
                   variant="outlined" 
                   component={Link} 
                   to="/posts" 
-                  sx={{ color: '#2E3B55', borderColor: '#2E3B55' }}
+                  sx={{ color: '#61082b', borderColor: '#61082b' }}
                 >
                   View All Posts
                 </Button>
@@ -314,7 +314,7 @@ const Home = () => {
           {/* People You May Know */}
           <StyledPaper sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <GroupIcon sx={{ mr: 1, color: '#2E3B55' }} />
+              <GroupIcon sx={{ mr: 1, color: '#61082b' }} />
               <Typography variant="h6">People You May Know</Typography>
             </Box>
             
@@ -343,8 +343,8 @@ const Home = () => {
                       sx={{ 
                         minWidth: 'auto', 
                         px: 2,
-                        color: '#2E3B55',
-                        borderColor: '#2E3B55',
+                        color: '#61082b',
+                        borderColor: '#61082b',
                       }}
                     >
                       Connect
@@ -359,7 +359,7 @@ const Home = () => {
               <Button 
                 component={Link} 
                 to="/posts" 
-                sx={{ color: '#2E3B55' }}
+                sx={{ color: '#61082b' }}
               >
                 See More
               </Button>
@@ -369,7 +369,7 @@ const Home = () => {
           {/* Popular Chat Groups */}
           <StyledPaper sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <GroupIcon sx={{ mr: 1, color: '#2E3B55' }} />
+              <GroupIcon sx={{ mr: 1, color: '#61082b' }} />
               <Typography variant="h6">Popular Chat Groups</Typography>
             </Box>
             
@@ -389,9 +389,9 @@ const Home = () => {
                     variant="contained" 
                     size="small"
                     sx={{ 
-                      backgroundColor: '#2E3B55',
+                      backgroundColor: '#61082b',
                       '&:hover': {
-                        backgroundColor: '#3a4b6d',
+                        backgroundColor: '#484b50',
                       }
                     }}
                   >
@@ -405,7 +405,7 @@ const Home = () => {
               <Button 
                 component={Link} 
                 to="/chats" 
-                sx={{ color: '#2E3B55' }}
+                sx={{ color: '#61082b' }}
               >
                 See All Groups
               </Button>
@@ -415,7 +415,7 @@ const Home = () => {
           {/* Upcoming Events */}
           <StyledPaper>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <EventIcon sx={{ mr: 1, color: '#2E3B55' }} />
+              <EventIcon sx={{ mr: 1, color: '#61082b' }} />
               <Typography variant="h6">Upcoming Events</Typography>
             </Box>
             
@@ -440,8 +440,8 @@ const Home = () => {
                     variant="outlined" 
                     size="small"
                     sx={{ 
-                      color: '#2E3B55',
-                      borderColor: '#2E3B55',
+                      color: '#61082b',
+                      borderColor: '#61082b',
                     }}
                   >
                     RSVP

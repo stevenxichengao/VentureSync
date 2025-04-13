@@ -72,7 +72,7 @@ const MessageItem = styled(Box, {
 const MessageBubble = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sentByMe',
 })(({ sentByMe }) => ({
-  backgroundColor: sentByMe ? '#2E3B55' : '#f0f2f5',
+  backgroundColor: sentByMe ? '#61082b' : '#f0f2f5',
   color: sentByMe ? '#fff' : 'inherit',
   borderRadius: 12,
   padding: '12px 16px',
@@ -223,8 +223,8 @@ const Chats = () => {
               variant="contained"
               sx={{
                 mt: 2,
-                backgroundColor: '#2E3B55',
-                '&:hover': { backgroundColor: '#3a4b6d' },
+                backgroundColor: '#61082b',
+                '&:hover': { backgroundColor: '#484b50' },
               }}
             >
               Create New Group
@@ -360,8 +360,8 @@ const Chats = () => {
                   disabled={!messageText.trim()}
                   onClick={handleSendMessage}
                   sx={{
-                    backgroundColor: '#2E3B55',
-                    '&:hover': { backgroundColor: '#3a4b6d' },
+                    backgroundColor: '#61082b',
+                    '&:hover': { backgroundColor: '#484b50' },
                   }}
                 >
                   Send

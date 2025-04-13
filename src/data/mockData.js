@@ -24,11 +24,24 @@ export const generateUsers = (count = 20) => {
   // Define company sizes
   const companySizes = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
   
+  // Additional filter data
+  const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
+  const genders = ['Male', 'Female', 'Non-binary', 'Other'];
+  const ethnicities = ['Asian', 'Black', 'Hispanic', 'White', 'Other'];
+  const educationLevels = ['High School', 'Bachelor', 'Master', 'PhD'];
+  const interests = ['Networking', 'Funding', 'Partnerships', 'Mentorship', 'Innovation', 'Growth', 'Marketing'];
+  
   for (let i = 0; i < count; i++) {
     const isFounder = faker.datatype.boolean(0.6); // 60% chance of being a founder
     const role = isFounder 
       ? faker.helpers.arrayElement(['Founder', 'Co-Founder', 'CEO', 'CTO']) 
       : faker.helpers.arrayElement(['Investor', 'Product Manager', 'Designer', 'Developer', 'Marketing Director']);
+    
+    // Generate random interests (1-3)
+    const userInterests = faker.helpers.arrayElements(
+      interests, 
+      faker.number.int({ min: 1, max: 3 })
+    );
     
     users.push({
       id: i + 1,
@@ -58,6 +71,12 @@ export const generateUsers = (count = 20) => {
           'React', 'JavaScript', 'Business Strategy', 'Marketing', 'Finance', 
           'UX Design', 'Product Management', 'Leadership', 'Sales', 'Networking'
         ])),
+      // New fields for filters
+      age: faker.helpers.arrayElement(ageRanges),
+      gender: faker.helpers.arrayElement(genders),
+      ethnicity: faker.helpers.arrayElement(ethnicities),
+      education: faker.helpers.arrayElement(educationLevels),
+      interests: userInterests,
     });
   }
   return users;

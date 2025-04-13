@@ -42,7 +42,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 const CoverImage = styled(Box)(({ theme }) => ({
   height: 200,
   width: '100%',
-  backgroundColor: '#2E3B55',
+  backgroundColor: '#61082b',
   borderRadius: '10px 10px 0 0',
   position: 'relative',
 }));
@@ -64,7 +64,7 @@ const InfoItem = styled(Box)(({ theme }) => ({
 
 const IconWrapper = styled(Box)(({ theme }) => ({
   marginRight: theme.spacing(1),
-  color: '#2E3B55',
+  color: '#61082b',
   display: 'flex',
   alignItems: 'center',
 }));
@@ -72,7 +72,7 @@ const IconWrapper = styled(Box)(({ theme }) => ({
 const StyledChip = styled(Chip)(({ theme }) => ({
   margin: theme.spacing(0.5),
   backgroundColor: 'rgba(46, 59, 85, 0.1)',
-  color: '#2E3B55',
+  color: '#61082b',
 }));
 
 const Profile = () => {
@@ -169,10 +169,10 @@ const Profile = () => {
                 startIcon={<EditIcon />}
                 onClick={handleEditDialogOpen}
                 sx={{ 
-                  borderColor: '#2E3B55',
-                  color: '#2E3B55',
+                  borderColor: '#61082b',
+                  color: '#61082b',
                   '&:hover': {
-                    borderColor: '#3a4b6d',
+                    borderColor: '#484b50',
                     backgroundColor: 'rgba(46, 59, 85, 0.05)',
                   }
                 }}
@@ -183,9 +183,9 @@ const Profile = () => {
               <Button 
                 variant="contained"
                 sx={{ 
-                  backgroundColor: '#2E3B55',
+                  backgroundColor: '#61082b',
                   '&:hover': {
-                    backgroundColor: '#3a4b6d',
+                    backgroundColor: '#484b50',
                   }
                 }}
               >
@@ -246,7 +246,7 @@ const Profile = () => {
                         href={profileUser.website} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        style={{ color: '#2E3B55', textDecoration: 'none' }}
+                        style={{ color: '#61082b', textDecoration: 'none' }}
                       >
                         {profileUser.website}
                       </a>
@@ -331,7 +331,7 @@ const Profile = () => {
                     label={item}
                     sx={{
                       backgroundColor: 'rgba(46, 59, 85, 0.1)',
-                      color: '#2E3B55',
+                      color: '#61082b',
                     }}
                   />
                 ))}
@@ -345,7 +345,7 @@ const Profile = () => {
               <Typography variant="h6">Connections</Typography>
               <Button 
                 size="small" 
-                sx={{ color: '#2E3B55' }}
+                sx={{ color: '#61082b' }}
               >
                 See All
               </Button>
@@ -366,8 +366,8 @@ const Profile = () => {
                     sx={{ 
                       minWidth: 'auto', 
                       px: 1,
-                      borderColor: '#2E3B55',
-                      color: '#2E3B55',
+                      borderColor: '#61082b',
+                      color: '#61082b',
                     }}
                   >
                     Message
@@ -389,8 +389,8 @@ const Profile = () => {
               scrollButtons="auto"
               sx={{ 
                 '& .MuiTab-root': { textTransform: 'none' },
-                '& .Mui-selected': { color: '#2E3B55' },
-                '& .MuiTabs-indicator': { backgroundColor: '#2E3B55' } 
+                '& .Mui-selected': { color: '#61082b' },
+                '& .MuiTabs-indicator': { backgroundColor: '#61082b' } 
               }}
             >
               <Tab label="Posts" />
@@ -447,7 +447,7 @@ const Profile = () => {
                                 size="small"
                                 sx={{ 
                                   backgroundColor: 'rgba(46, 59, 85, 0.1)',
-                                  color: '#2E3B55'
+                                  color: '#61082b'
                                 }}
                               />
                             ))}
@@ -455,13 +455,13 @@ const Profile = () => {
                         )}
                         
                         <Box sx={{ display: 'flex', mt: 2 }}>
-                          <Button size="small" sx={{ color: '#2E3B55', mr: 1 }}>
+                          <Button size="small" sx={{ color: '#61082b', mr: 1 }}>
                             {post.likes} Likes
                           </Button>
-                          <Button size="small" sx={{ color: '#2E3B55', mr: 1 }}>
+                          <Button size="small" sx={{ color: '#61082b', mr: 1 }}>
                             {post.comments} Comments
                           </Button>
-                          <Button size="small" sx={{ color: '#2E3B55' }}>
+                          <Button size="small" sx={{ color: '#61082b' }}>
                             {post.shares} Shares
                           </Button>
                         </Box>
@@ -478,9 +478,9 @@ const Profile = () => {
                         variant="contained"
                         sx={{ 
                           mt: 2,
-                          backgroundColor: '#2E3B55',
+                          backgroundColor: '#61082b',
                           '&:hover': {
-                            backgroundColor: '#3a4b6d',
+                            backgroundColor: '#484b50',
                           } 
                         }}
                       >
@@ -631,9 +631,9 @@ const Profile = () => {
               onClick={handleProfileUpdate}
               variant="contained"
               sx={{ 
-                backgroundColor: '#2E3B55',
+                backgroundColor: '#61082b',
                 '&:hover': {
-                  backgroundColor: '#3a4b6d',
+                  backgroundColor: '#484b50',
                 } 
               }}
             >
