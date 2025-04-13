@@ -1,4 +1,4 @@
-# EntrepreneurConnect
+# Tethered
 
 A professional platform for entrepreneurs to connect, share ideas, and grow their network.
 
@@ -26,12 +26,12 @@ A professional platform for entrepreneurs to connect, share ideas, and grow thei
 
 1. Clone the repository
 ```
-git clone https://github.com/yourusername/entrepreneur-connect.git
+git clone https://github.com/yourusername/tethered.git
 ```
 
 2. Navigate to the project directory
 ```
-cd entrepreneur-connect
+cd tethered
 ```
 
 3. Install the dependencies

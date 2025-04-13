@@ -145,7 +145,7 @@ const Navbar = () => {
   const drawer = (
     <Box sx={{ textAlign: 'center', width: 250 }}>
       <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
-        EntrepreneurConnect
+        Tethered
       </Typography>
       <Divider />
       <List>
@@ -199,7 +199,7 @@ const Navbar = () => {
             }}
           >
             <LogoText variant="h6" component="div">
-              EntrepreneurConnect
+              Tethered
             </LogoText>
           </Box>
           
